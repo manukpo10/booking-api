@@ -1,11 +1,22 @@
 package com.manukpo10.booking.customer;
 
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "customers")
 public class Customer {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String email;
     private String phone;
+
+    protected Customer() {
+    }
 
     public Customer(Long id, String name, String email, String phone) {
         this.id = id;

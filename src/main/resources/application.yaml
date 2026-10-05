@@ -1,3 +1,12 @@
 spring:
   application:
     name: booking-api
+  datasource:
+    url: jdbc:postgresql://localhost:5433/booking
+    username: booking
+    password: booking
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
