@@ -21,25 +21,25 @@ public class CustomerController {
 
 
     @GetMapping
-    public List<Customer> findAll() {
+    public List<CustomerResponse> findAll() {
         return customerService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Customer findById(@PathVariable Long id) {
+    public CustomerResponse findById(@PathVariable Long id) {
         return customerService.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Customer> create(@Valid @RequestBody CustomerRequest request) {
-        Customer created = customerService.create(request);
+    public ResponseEntity<CustomerResponse> create(@Valid @RequestBody CustomerRequest request) {
+        CustomerResponse created = customerService.create(request);
         return ResponseEntity
-                .created(URI.create("/api/customers/" + created.getId()))
+                .created(URI.create("/api/customers/" + created.id()))
                 .body(created);
     }
 
     @PutMapping("/{id}")
-    public Customer update(@PathVariable Long id,@Valid @RequestBody CustomerRequest request) {
+    public CustomerResponse update(@PathVariable Long id,@Valid @RequestBody CustomerRequest request) {
         return customerService.update(id, request);
     }
 

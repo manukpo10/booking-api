@@ -3,6 +3,7 @@ package com.manukpo10.booking.customer;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,44 +16,45 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> findAll() {
-
-        return customerRepository.findAll();
-
-
+    public List<CustomerResponse> findAll() {
+        List<CustomerResponse> responses = new ArrayList<>();
+        for (Customer customer : customerRepository.findAll()) {
+            responses.add(CustomerResponse.from(customer));
+        }
+        return responses;
     }
 
-    public Customer findById(Long id) {
 
+    public CustomerResponse findById(Long id) {
+        return CustomerResponse.from(findEntityById(id));
+    }
+
+
+    private Customer findEntityById(Long id) {
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
-
-
         if (optionalCustomer.isEmpty()) {
             throw new CustomerNotFoundException(id);
         }
-
-
         return optionalCustomer.get();
     }
 
-    public Customer create(CustomerRequest request) {
-
+    public CustomerResponse create(CustomerRequest request) {
         Customer customer = new Customer(null, request.name(), request.email(), request.phone());
-        return customerRepository.save(customer);
-
+        Customer saved = customerRepository.save(customer);
+        return CustomerResponse.from(saved);
     }
 
-    public Customer update(Long id, CustomerRequest request) {
+    public CustomerResponse update(Long id, CustomerRequest request) {
 
-        Customer customer = findById(id);
+        Customer customer = findEntityById(id);
 
 
         customer.setName(request.name());
         customer.setEmail(request.email());
         customer.setPhone(request.phone());
 
-
-        return customerRepository.save(customer);
+        Customer saved = customerRepository.save(customer);
+        return CustomerResponse.from(saved);
     }
 
     public void delete(Long id) {
