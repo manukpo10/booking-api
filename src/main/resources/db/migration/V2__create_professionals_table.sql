@@ -1,0 +1,6 @@
+CREATE TABLE professionals
+(
+    id         BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name       VARCHAR(100) NOT NULL,
+    specialty VARCHAR(100) NOT NULL
+);

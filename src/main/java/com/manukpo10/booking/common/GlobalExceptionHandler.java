@@ -1,6 +1,7 @@
 package com.manukpo10.booking.common;
 
 import com.manukpo10.booking.customer.CustomerNotFoundException;
+import com.manukpo10.booking.professional.ProfessionalNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<ApiError> handleNotFound(CustomerNotFoundException ex, HttpServletRequest request) {
+        ApiError body = new ApiError(404, "Not Found", ex.getMessage(), request.getRequestURI(), List.of());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+    }
+
+    @ExceptionHandler(ProfessionalNotFoundException.class)
+    public ResponseEntity<ApiError> handleNotFound(ProfessionalNotFoundException ex, HttpServletRequest request) {
         ApiError body = new ApiError(404, "Not Found", ex.getMessage(), request.getRequestURI(), List.of());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
