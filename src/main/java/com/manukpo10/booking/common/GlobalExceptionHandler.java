@@ -33,5 +33,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
 
-
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ApiError> handleConflict(ConflictException ex, HttpServletRequest request) {
+        ApiError body = new ApiError(409, "Conflict", ex.getMessage(), request.getRequestURI(), List.of());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
+    }
 }

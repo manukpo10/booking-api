@@ -30,7 +30,7 @@ public class CustomerService {
     }
 
 
-    private Customer findEntityById(Long id) {
+    public Customer findEntityById(Long id) {
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
         if (optionalCustomer.isEmpty()) {
             throw new CustomerNotFoundException(id);

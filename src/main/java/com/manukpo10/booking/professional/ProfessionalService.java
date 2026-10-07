@@ -29,7 +29,7 @@ public class ProfessionalService {
     }
 
 
-    private Professional findEntityById(Long id) {
+    public Professional findEntityById(Long id) {
         Optional<Professional> optionalProfessional = professionalRepository.findById(id);
         if (optionalProfessional.isEmpty()) {
             throw new ProfessionalNotFoundException(id);
