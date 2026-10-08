@@ -1,5 +1,6 @@
 package com.manukpo10.booking.appointment;
 
+import com.manukpo10.booking.common.ConflictException;
 import com.manukpo10.booking.customer.Customer;
 import com.manukpo10.booking.professional.Professional;
 import jakarta.persistence.*;
@@ -41,7 +42,13 @@ public class Appointment {
     }
 
     public void cancel() {
+        if (status == AppointmentStatus.CANCELLED) {
+            throw new ConflictException("Appointment is already cancelled");
+        }
+
         this.status = AppointmentStatus.CANCELLED;
+
+
     }
 
     public Long getId() {
