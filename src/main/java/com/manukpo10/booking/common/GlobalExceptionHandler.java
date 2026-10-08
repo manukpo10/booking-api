@@ -1,6 +1,7 @@
 package com.manukpo10.booking.common;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -36,6 +37,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<ApiError> handleConflict(ConflictException ex, HttpServletRequest request) {
         ApiError body = new ApiError(409, "Conflict", ex.getMessage(), request.getRequestURI(), List.of());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiError> handleDataIntegrity(DataIntegrityViolationException ex, HttpServletRequest request) {
+        ApiError body = new ApiError(409, "Conflict", "The request conflicts with existing data",
+                request.getRequestURI(), List.of());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
     }
 }

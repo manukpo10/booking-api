@@ -1,6 +1,7 @@
 package com.manukpo10.booking.customer;
 
 
+import com.manukpo10.booking.common.ConflictException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,6 +40,10 @@ public class CustomerService {
     }
 
     public CustomerResponse create(CustomerRequest request) {
+
+        if (customerRepository.existsByEmail(request.email())) {
+            throw new ConflictException("Email already registered: " + request.email());
+        }
         Customer customer = new Customer(null, request.name(), request.email(), request.phone());
         Customer saved = customerRepository.save(customer);
         return CustomerResponse.from(saved);
@@ -47,6 +52,10 @@ public class CustomerService {
     public CustomerResponse update(Long id, CustomerRequest request) {
 
         Customer customer = findEntityById(id);
+
+        if (customerRepository.existsByEmailAndIdNot(request.email(),id)) {
+            throw new ConflictException("Email already registered: " + request.email());
+        }
 
 
         customer.setName(request.name());
